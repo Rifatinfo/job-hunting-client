@@ -31,6 +31,7 @@ const Navbar = () => {
               <Link to="/login"><li><a>Login</a></li></Link>
               <Link to="/register"><li><a>Register</a></li></Link>
               <Link to="/add-job"><li><a>Add Job</a></li></Link>
+              <Link to="/my-posted-job"><li><a>My Posted Job</a></li></Link>
             
             </ul>
           </div>
@@ -42,6 +43,9 @@ const Navbar = () => {
               <Link to="/login"><li><a>Login</a></li></Link>
               <Link to="/register"><li><a>Register</a></li></Link>
               <Link to="/add-job"><li><a>Add Job</a></li></Link>
+              <Link to="/my-posted-job"><li><a>My Posted Job</a></li></Link>
+              <Link to="/my-bids"><li><a>My Bids</a></li></Link>
+              <Link to="/my-bids-request"><li><a>My Bids Request</a></li></Link>
           </ul>
         </div>
         <div className="navbar-end">
