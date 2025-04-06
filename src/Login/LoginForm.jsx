@@ -5,6 +5,9 @@ import { AuthContext } from "../Provider/AuthProvider";
 
 export default function LoginForm() {
   const { signInWithGoogle } = useContext(AuthContext)
+  const handleLoginForm = (e) => {
+        console.log(e); 
+  }
   const handleGoogleSignIn = async () => {
     try {
       await signInWithGoogle()
@@ -33,6 +36,7 @@ export default function LoginForm() {
         
         <div className="text-center text-sm text-gray-500 mb-4">OR LOGIN WITH EMAIL</div>
 
+        <form onSubmit={handleLoginForm}>
         <input
           type="email"
           placeholder="Email Address"
@@ -43,6 +47,7 @@ export default function LoginForm() {
           placeholder="Password"
           className="w-full p-3 border rounded-lg mb-4 focus:outline-none"
         />
+        </form>
 
         <button className="w-full bg-black text-white p-3 rounded-lg hover:bg-gray-800">
           Sign In

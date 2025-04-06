@@ -3,9 +3,21 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 const Navbar = () => {
-    const {user} = useContext(AuthContext)
-    console.log(user);
-    
+  const { user, logOut } = useContext(AuthContext)
+  console.log(user);
+
+  const handleSignOut = () => {
+    logOut()
+      .then(() => {
+        console.log("successfully sign Out");
+      })
+      .catch((err) => {
+        console.log(err.message);
+
+      })
+
+  }
+
   return (
     <div className="max-w-7xl mx-auto">
       <div className="navbar bg-base-100 ">
@@ -32,25 +44,50 @@ const Navbar = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
-              <Link to="/"><li><a>Home</a></li></Link>
-              <Link to="/login"><li><a>Login</a></li></Link>
-              <Link to="/register"><li><a>Register</a></li></Link>
-              <Link to="/add-job"><li><a>Add Job</a></li></Link>
-              <Link to="/my-posted-job"><li><a>My Posted Job</a></li></Link>
-            
+              <ul className="flex gap-4 items-center">
+                <li>
+                  <Link to="/">Home</Link>
+                </li>
+
+                {user ? (
+                  <>
+                    <li>
+                      <button onClick={handleSignOut}>Log Out</button>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li>
+                      <Link to="/register">Register</Link>
+                    </li>
+                    <li>
+                      <Link to="/login">Sign In</Link>
+                    </li>
+                    <li>
+                      <Link to="/add-job">Add Job</Link>
+                    </li>
+                    <li>
+                      <Link to="/my-posted-job">My Posted Job</Link>
+                    </li>
+                  </>
+                )}
+              </ul>
+
+
+
             </ul>
           </div>
           <a className="btn btn-ghost text-xl">Job Hunting</a>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
-              <Link to="/"><li><a>Home</a></li></Link>
-              <Link to="/login"><li><a>Login</a></li></Link>
-              <Link to="/register"><li><a>Register</a></li></Link>
-              <Link to="/add-job"><li><a>Add Job</a></li></Link>
-              <Link to="/my-posted-job"><li><a>My Posted Job</a></li></Link>
-              <Link to="/my-bids"><li><a>My Bids</a></li></Link>
-              <Link to="/my-bids-request"><li><a>My Bids Request</a></li></Link>
+            <Link to="/"><li><a>Home</a></li></Link>
+            <Link to="/login"><li><a>Login</a></li></Link>
+            <Link to="/register"><li><a>Register</a></li></Link>
+            <Link to="/add-job"><li><a>Add Job</a></li></Link>
+            <Link to="/my-posted-job"><li><a>My Posted Job</a></li></Link>
+            <Link to="/my-bids"><li><a>My Bids</a></li></Link>
+            <Link to="/my-bids-request"><li><a>My Bids Request</a></li></Link>
           </ul>
         </div>
         <div className="navbar-end">
@@ -63,7 +100,7 @@ const Navbar = () => {
               <div className="w-10 rounded-full">
                 <img
                   alt="Tailwind CSS Navbar component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                  src={user?.photoURL}
                 />
               </div>
             </div>
@@ -71,7 +108,7 @@ const Navbar = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
-              <li>
+              <li onClick={handleSignOut}>
                 <a>Logout</a>
               </li>
             </ul>
