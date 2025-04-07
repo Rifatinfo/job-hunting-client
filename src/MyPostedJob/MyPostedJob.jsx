@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../Provider/AuthProvider";
 import axios from "axios";
 import { format } from "date-fns";
+import toast from "react-hot-toast";
 
 const MyPostedJob = () => {
   const {user} = useContext(AuthContext);
@@ -17,6 +18,20 @@ const MyPostedJob = () => {
         setJobs(data)
     }
     console.log(jobs);
+    const handleDelete = async (id) =>{
+        console.log(id);
+        try{
+            const {data} = await axios.delete(`http://localhost:5000/job/${id}`)
+            console.log(data);
+            fetchMyPostedJobs();
+            toast.success('Successfully deleted');
+            alert('Successfully deleted');
+
+        }catch(err){
+          console.log(err.message);
+           alert('Successfully Added');
+       }
+    }
     return (
         <div>
               <section className='container px-4 mx-auto pt-12'>
@@ -86,7 +101,7 @@ const MyPostedJob = () => {
                       </td>
   
                       <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>
-                        {format(new Date(job.deadLine), "p")}
+                      {format(new Date(job.deadLine), "M/d/yyyy")}
                       </td>
   
                       <td className='px-4 py-4 text-sm text-gray-500  whitespace-nowrap'>
@@ -95,7 +110,11 @@ const MyPostedJob = () => {
                       <td className='px-4 py-4 text-sm whitespace-nowrap'>
                         <div className='flex items-center gap-x-2'>
                           <p
-                            className={`px-3 py-1  text-blue-500 bg-blue-100/60 text-xs  rounded-full`}
+                            className={`px-3 py-1  
+                              ${job.category === 'Graphics Design' && 'text-blue-500 bg-blue-100/60'} 
+                              ${job.category === 'Digital Marketing' && 'text-green-500 bg-blue-100/60'} 
+                              ${job.category === 'Web Development' && 'text-red-500 bg-blue-100/60'} 
+                            text-xs  rounded-full`}
                           >
                             {job.category}
                           </p>
@@ -106,7 +125,7 @@ const MyPostedJob = () => {
                       </td>
                       <td className='px-4 py-4 text-sm whitespace-nowrap'>
                         <div className='flex items-center gap-x-6'>
-                          <button className='text-gray-500 transition-colors duration-200   hover:text-red-500 focus:outline-none'>
+                          <button onClick={() => handleDelete(job._id)} className='text-gray-500 transition-colors duration-200   hover:text-red-500 focus:outline-none'>
                             <svg
                               xmlns='http://www.w3.org/2000/svg'
                               fill='none'
@@ -124,6 +143,7 @@ const MyPostedJob = () => {
                           </button>
   
                           <Link
+                          to={`/update/${job._id}`}
                             className='text-gray-500 transition-colors duration-200   hover:text-yellow-500 focus:outline-none'
                           >
                             <svg
