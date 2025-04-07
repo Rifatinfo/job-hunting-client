@@ -88,6 +88,7 @@ const Navbar = () => {
             <Link to="/my-posted-job"><li><a>My Posted Job</a></li></Link>
             <Link to="/my-bids"><li><a>My Bids</a></li></Link>
             <Link to="/my-bids-request"><li><a>My Bids Request</a></li></Link>
+            <Link to="/all-job"><li><a>All Job</a></li></Link>
           </ul>
         </div>
         <div className="navbar-end">

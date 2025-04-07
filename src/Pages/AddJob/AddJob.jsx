@@ -1,9 +1,52 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css'
+import { AuthContext } from "../../Provider/AuthProvider";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const AddJob = () => {
-    const [startDate, setStartDate] = useState(new Date())
+  const {user} = useContext(AuthContext)
+    const [startDate, setStartDate] = useState(new Date());
+     const navigate = useNavigate()
+    
+    const handleSubmit = async (e) =>{
+        e.preventDefault();
+        const title = e.target.job_title.value;
+        const email = e.target.email.value;
+        const deadLine = startDate;
+        const category = e.target.category.value;
+        const min_price = parseFloat(e.target.min_price.value);
+        const max_price = parseFloat(e.target.max_price.value);
+        const description = e.target.description.value;
+
+        const formData = {
+          title,
+          email,
+          deadLine,
+          category,
+          min_price,
+          max_price,
+          description,
+          buyer : {
+            email, 
+            photo :user?.photoURL,
+            name : user?.displayName
+          },
+          bid_request : 0
+        }
+        try{
+          const {data} = await axios.post("http://localhost:5000/add-job", formData)
+          console.log(formData, data);
+          e.target.reset()
+          toast.success('Successfully Added');
+          navigate('/my-posted-job');
+        }catch(err){
+           console.log(err.message);
+           toast.error('Successfully Added');
+        }
+    };
     return (
         <div>
              <div className='flex justify-center items-center min-h-[calc(100vh-306px)] my-12'>
@@ -12,7 +55,7 @@ const AddJob = () => {
           Post a Job
         </h2>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className='grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2'>
             <div>
               <label className='text-gray-700 ' htmlFor='job_title'>
@@ -33,6 +76,8 @@ const AddJob = () => {
               <input
                 id='emailAddress'
                 type='email'
+                defaultValue={user?.email}
+                disabled={true}
                 name='email'
                 className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
               />
