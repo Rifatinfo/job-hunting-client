@@ -39,7 +39,7 @@ const AddJob = () => {
         try{
           const {data} = await axios.post("http://localhost:5000/add-job", formData)
           console.log(formData, data);
-          e.target.value.reset()
+          e.target.value = ''
           // toast.success('Successfully Added');
           alert('Successfully Added');
           navigate('/my-posted-job');

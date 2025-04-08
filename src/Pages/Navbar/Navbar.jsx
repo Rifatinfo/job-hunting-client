@@ -17,6 +17,7 @@ const Navbar = () => {
       })
 
   }
+  
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -91,16 +92,16 @@ const Navbar = () => {
             <Link to="/all-job"><li><a>All Job</a></li></Link>
           </ul>
         </div>
-        <div className="navbar-end">
+        {user && <div className="navbar-end">
           <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
               role="button"
               className="btn btn-ghost btn-circle avatar"
             >
-              <div className="w-10 rounded-full">
+              <div className="w-10 rounded-full border">
                 <img
-                  alt="Tailwind CSS Navbar component"
+                  alt="photo"
                   src={user?.photoURL}
                 />
               </div>
@@ -114,7 +115,7 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
-        </div>
+        </div>}
       </div>
     </div>
   );
