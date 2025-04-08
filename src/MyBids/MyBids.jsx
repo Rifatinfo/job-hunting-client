@@ -19,6 +19,13 @@ const MyBids = () => {
     }
     console.log(bids);
 
+    const handleStatusChange = async (id, prevStatus, status) =>{
+         console.log(id, prevStatus,status);
+         if(prevStatus !== 'In Progress'){
+            return console.log('Not Allowed') 
+         }
+    }
+
   return (
     <div>
       <section className="container px-4 mx-auto my-12">
@@ -82,7 +89,7 @@ const MyBids = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200 ">
-                  {bids.map(bid => <TableBid bid={bid}/>)}
+                  {bids.map(bid => <TableBid handleStatusChange={handleStatusChange} bid={bid}/>)}
                   </tbody>
                 </table>
               </div>

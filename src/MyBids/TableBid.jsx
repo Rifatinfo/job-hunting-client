@@ -1,8 +1,8 @@
 import { format } from "date-fns";
 
-const TableBid = ({ bid }) => {
+const TableBid = ({ bid , handleStatusChange}) => {
     // eslint-disable-next-line no-unused-vars
-    const {price,deadLine,jobId,title,category,status} = bid || {}
+    const {price,deadLine,jobId,title,category,status, _id} = bid || {}
     
     return (
         <div>
@@ -39,6 +39,7 @@ const TableBid = ({ bid }) => {
                 </td>
                 <td className="px-4 py-4 text-sm whitespace-nowrap">
                     <button
+                        onClick={() => handleStatusChange(_id, status, 'Completed')}
                         title="Mark Complete"
                         className="text-gray-500 transition-colors duration-200   hover:text-red-500 focus:outline-none disabled:cursor-not-allowed"
                     >

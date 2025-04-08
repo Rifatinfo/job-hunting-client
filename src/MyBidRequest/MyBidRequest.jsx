@@ -12,11 +12,25 @@ const MyBidRequest = () => {
     },[user])
 
     const fetchMyPostedBids = async () =>{
-        const {data} = await axios.get(`http://localhost:5000/bids-request/${user?.email}`)
+        const {data} = await axios.get(`http://localhost:5000/bids-request/${user?.email}?buyer=true`)
         console.log(data);
         setBids(data)
     }
     console.log(bids);
+
+    const handleStatusChange = async (id, prevStatus, status) =>{
+         console.log(id, prevStatus, status);
+         if(prevStatus === status || prevStatus === 'Completed'){
+          return console.log('Not Allowed') 
+          }
+         try {
+           const {data} = await axios.patch(`http://localhost:5000/bid-status-update/${id}`)
+           console.log(data);
+           fetchMyPostedBids()
+         } catch(err){
+          console.log(err);
+         }
+    }
     return (
         <div>
             <section className='container px-4 mx-auto my-12'>
@@ -88,7 +102,7 @@ const MyBidRequest = () => {
                   </tr>
                 </thead>
                 <tbody className='bg-white divide-y divide-gray-200'>
-                {bids.map(bid => <BidRequestTable bid={bid}/>)}
+                {bids.map(bid => <BidRequestTable handleStatusChange={handleStatusChange} bid={bid}/>)}
                 </tbody>
               </table>
             </div>
