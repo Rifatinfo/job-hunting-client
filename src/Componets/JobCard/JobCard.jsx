@@ -5,15 +5,16 @@ import { format } from "date-fns";
 
 const JobCard = ({job}) => {
   const {title,
-    email,
     deadLine,
     category,
     min_price,
     max_price,
     description,
+    _id,
   bid_request} = job;
   return (
     <Link
+      to={`job/${_id}`}
       className='w-full max-w-sm px-4 py-3 bg-white rounded-md shadow-md hover:scale-[1.05] transition-all'
     >
       <div className='flex items-center justify-between'>

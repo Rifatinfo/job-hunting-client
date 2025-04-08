@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 const AddJob = () => {
   const {user} = useContext(AuthContext)
     const [startDate, setStartDate] = useState(new Date());
-     const navigate = useNavigate()
+    const navigate = useNavigate()
     
     const handleSubmit = async (e) =>{
         e.preventDefault();
@@ -34,7 +34,7 @@ const AddJob = () => {
             photo :user?.photoURL,
             name : user?.displayName
           },
-          bid_request : 0
+          bid_count : 0
         }
         try{
           const {data} = await axios.post("http://localhost:5000/add-job", formData)
