@@ -4,12 +4,26 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { AuthContext } from "../../Provider/AuthProvider";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const AddJob = () => {
   const {user} = useContext(AuthContext)
     const [startDate, setStartDate] = useState(new Date());
     const navigate = useNavigate()
+    const queryClient = useQueryClient()
+
+    const {isPending , mutateAsync} = useMutation({ 
+      mutationFn: async jobData =>{
+      await axios.post("http://localhost:5000/add-job", jobData) },
+      onSuccess: () => {
+        alert("Successfully Added Data");
+        queryClient.invalidateQueries({ queryKey: ['jobs'] })    // refetch  
+      },
+      onError: () => {
+        alert("Error Occ")
+      }
+     })
+
     
     const handleSubmit = async (e) =>{
         e.preventDefault();
@@ -37,15 +51,14 @@ const AddJob = () => {
           bid_count : 0
         }
         try{
-          const {data} = await axios.post("http://localhost:5000/add-job", formData)
-          console.log(formData, data);
+          await mutateAsync(formData)
           e.target.value = ''
           // toast.success('Successfully Added');
-          alert('Successfully Added');
+          // alert('Successfully Added');
           navigate('/my-posted-job');
         }catch(err){
            console.log(err.message);
-           toast.error('Successfully Added');
+          //  toast.error('Successfully Added');
         }
     };
     return (
@@ -144,7 +157,7 @@ const AddJob = () => {
           </div>
           <div className='flex justify-end mt-6'>
             <button className='disabled:cursor-not-allowed px-8 py-2.5 leading-5 text-white transition-colors duration-300 transhtmlForm bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600'>
-              Save
+               {isPending ? 'loading ....' : "Save"}
             </button>
           </div>
         </form>

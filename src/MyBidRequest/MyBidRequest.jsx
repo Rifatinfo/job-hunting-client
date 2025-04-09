@@ -24,7 +24,7 @@ const MyBidRequest = () => {
           return console.log('Not Allowed') 
           }
          try {
-           const {data} = await axios.patch(`http://localhost:5000/bid-status-update/${id}`)
+           const {data} = await axios.patch(`http://localhost:5000/bid-status-update/${id}`, status)
            console.log(data);
            fetchMyPostedBids()
          } catch(err){
